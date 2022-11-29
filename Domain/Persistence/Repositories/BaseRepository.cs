@@ -2,7 +2,7 @@
 
 namespace Supermarket.API.Persistence.Repositories
 {
-    public abstract class BaseRepository
+    public abstract class BaseRepository 
     {
         protected readonly AppDbContext _context;
 
