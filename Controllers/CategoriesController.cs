@@ -3,10 +3,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Supermarket.API.Domain.Models;
-using Supermarket.API.Domain.Services;
 using Supermarket.API.Resources;
 using Supermarket.API.Extensions;
-
+using Supermarket.API.Domain.Services;
 
 namespace Supermarket.API.Controllers
 {
@@ -38,6 +37,13 @@ namespace Supermarket.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.GetErrorMessages());
             var category = _mapper.Map<SaveCategoryResource, Category>(resource);
+            var result = await _categoryService.SaveAsync(category);
+
+            if (!result.Success)
+                return BadRequest(result.Message);
+
+            var categoryResource = _mapper.Map<Category, CategoryResource>(result.Category);
+            return Ok(categoryResource);
 
         }
     }
